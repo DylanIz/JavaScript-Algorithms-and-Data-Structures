@@ -22,13 +22,23 @@ const weapons = [
   { name: "claw hammer", power: 50 },
   { name: "sword", power: 100 },
 ];
-
 const monsters = [
-  { name: "slime", level: 2, health: 15 },
-  { name: "fanged beast", level: 8, health: 60 },
-  { name: "dragon", level: 20, health: 300 },
+  {
+    name: "slime",
+    level: 2,
+    health: 15,
+  },
+  {
+    name: "fanged beast",
+    level: 8,
+    health: 60,
+  },
+  {
+    name: "dragon",
+    level: 20,
+    health: 300,
+  },
 ];
-
 const locations = [
   {
     name: "town square",
@@ -68,6 +78,18 @@ const locations = [
     "button functions": [goTown, goTown, goTown],
     text: 'The monster screams "Arg!" as it dies. You gain experience points and find gold.',
   },
+  {
+    name: "lose",
+    "button text": ["REPLAY?", "REPLAY?", "REPLAY?"],
+    "button functions": [restart, restart, restart],
+    text: "You die. &#x2620;",
+  },
+  {
+    name: "win",
+    "button text": ["REPLAY?", "REPLAY?", "REPLAY?"],
+    "button functions": [restart, restart, restart],
+    text: "You defeat the dragon! YOU WIN THE GAME! &#x1F389;",
+  },
 ];
 
 // initialize buttons
@@ -83,7 +105,7 @@ function update(location) {
   button1.onclick = location["button functions"][0];
   button2.onclick = location["button functions"][1];
   button3.onclick = location["button functions"][2];
-  text.innerText = location.text;
+  text.innerHTML = location.text;
 }
 
 function goTown() {
@@ -177,12 +199,16 @@ function attack() {
     lose();
   } else if (monsterHealth <= 0) {
     defeatMonster();
+    if (fighting === 2) {
+      winGame();
+    } else {
+      defeatMonster();
+    }
   }
 }
 
 function dodge() {
-  text.innerText =
-    "You dodge the attack from the " + monsters[fighting].name + ".";
+  text.innerText = "You dodge the attack from the " + monsters[fighting].name;
 }
 
 function defeatMonster() {
@@ -194,6 +220,10 @@ function defeatMonster() {
 }
 
 function lose() {
+  update(locations[5]);
+}
+
+function winGame() {
   update(locations[6]);
 }
 
