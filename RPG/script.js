@@ -131,32 +131,35 @@ function sellWeapon() {
 }
 
 function fightSlime() {
-    fighting = 0;
-    goFight();
+  fighting = 0;
+  goFight();
 }
 
 function fightBeast() {
-    fighting = 1;
-    goFight();
+  fighting = 1;
+  goFight();
 }
 
 function fightDragon() {
-    fighting = 2;
-    goFight();
+  fighting = 2;
+  goFight();
 }
 
-function goFight(){
-    update(locations[3])
-    monsterHealth = monsters[fighting].health;
-    monsterStats.style.display = 'block';
-    monsterName.innerText = monsters[fighting].name;
-    monsterHealthText.innerText = monsterHealth;
+function goFight() {
+  update(locations[3]);
+  monsterHealth = monsters[fighting].health;
+  monsterStats.style.display = "block";
+  monsterName.innerText = monsters[fighting].name;
+  monsterHealthText.innerText = monsterHealth;
 }
 
-function attack(){
-
+function attack() {
+  text.innerText = "The " + monsters[fighting].name + " attacks.";
+  text.innerText +=
+    " You attack it with your " + weapons[currentWeapon].name + ".";
+  health -= monsters[fighting].level;
+  monsterHealth -=
+    weapons[currentWeapon].power + Math.floor(Math.random() * xp);
 }
 
-function dodge(){
-
-}
+function dodge() {}
