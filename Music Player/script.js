@@ -80,6 +80,21 @@ const allSongs = [
 
 const audio = new Audio();
 
+const playSong = (id) => {
+  const song = userData?.songs.find((song) => song.id === id);
+  audio.src = song.src;
+  audio.title = song.title;
+  if(userData?.currentSong === null || userData?.currentSong.id !== song.id){
+    audio.currentTime = 0;
+  }
+  else{
+    audio.currentTime = userData?.songCurrentTime;
+  }
+  userData.currentSong = song;
+  playButton.classList.add("playing");
+  audio.play();
+};
+
 let userData = {
   songs: [...allSongs],
   currentSong: null,
@@ -107,6 +122,16 @@ const renderSongs = (array) => {
 
   playlistSongs.innerHTML = songsHTML;
 };
+
+playButton.addEventListener("click", () => {
+  if(!userData?.currentSong)
+  {
+    playSong(userData?.songs[0].id)
+  }
+  else{
+    playSong(userData?.currentSong.id)
+  }
+});
 
 const sortSongs = () => {
   userData?.songs.sort((a, b) => {
