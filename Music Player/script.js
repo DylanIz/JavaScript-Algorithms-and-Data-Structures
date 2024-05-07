@@ -242,21 +242,12 @@ playButton.addEventListener("click", () => {
 });
 
 pauseButton.addEventListener("click", pauseSong);
-
 nextButton.addEventListener("click", playNextSong);
-
 previousButton.addEventListener("click", playPreviousSong);
-
 shuffleButton.addEventListener("click", shuffle);
-resetButton.addEventListener("click", () => {
-  userData.songs = [...allSongs];
-  renderSongs(sortSongs());
-  setPlayButtonAccessibleText();
-  resetButton.remove();
-});
 
 const sortSongs = () => {
-  userData?.songs.sort((a,b) => {
+  userData?.songs.sort((a, b) => {
     if (a.title < b.title) {
       return -1;
     }
