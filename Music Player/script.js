@@ -79,11 +79,17 @@ const allSongs = [
 ];
 
 const audio = new Audio();
+let userData = {
+  songs: [...allSongs],
+  currentSong: null,
+  songCurrentTime: 0,
+};
 
 const playSong = (id) => {
   const song = userData?.songs.find((song) => song.id === id);
   audio.src = song.src;
   audio.title = song.title;
+
   if (userData?.currentSong === null || userData?.currentSong.id !== song.id) {
     audio.currentTime = 0;
   } else {
@@ -91,20 +97,16 @@ const playSong = (id) => {
   }
   userData.currentSong = song;
   playButton.classList.add("playing");
+
   highlightCurrentSong();
   setPlayerDisplay();
   setPlayButtonAccessibleText();
   audio.play();
 };
 
-let userData = {
-  songs: [...allSongs],
-  currentSong: null,
-  songCurrentTime: 0,
-};
-
 const pauseSong = () => {
   userData.songCurrentTime = audio.currentTime;
+
   playButton.classList.remove("playing");
   audio.pause();
 };
@@ -121,9 +123,8 @@ const playNextSong = () => {
 };
 
 const playPreviousSong = () => {
-  if (userData?.currentSong === null) {
-    return;
-  } else {
+  if (userData?.currentSong === null) return;
+  else {
     const currentSongIndex = getCurrentSongIndex();
     const previousSong = userData?.songs[currentSongIndex - 1];
 
@@ -142,16 +143,6 @@ const shuffle = () => {
   setPlayButtonAccessibleText();
 };
 
-const setPlayerDisplay = () => {
-  const playingSong = document.getElementById("player-song-title");
-  const songArtist = document.getElementById("player-song-artist");
-  const currentTitle = userData?.currentSong?.title;
-  const currentArtist = userData?.currentSong?.artist;
-
-  playingSong.textContent = currentTitle ? currentTitle : "";
-  songArtist.textContent = currentArtist ? currentArtist : "";
-};
-
 const deleteSong = (id) => {
   if (userData?.currentSong?.id === id) {
     userData.currentSong = null;
@@ -165,11 +156,38 @@ const deleteSong = (id) => {
   renderSongs(userData?.songs);
   highlightCurrentSong();
   setPlayButtonAccessibleText();
+
+  if (userData?.songs.length === 0) {
+    const resetButton = document.createElement("button");
+    const resetText = document.createTextNode("Reset Playlist");
+
+    resetButton.id = "reset";
+    resetButton.ariaLabel = "Reset playlist";
+    resetButton.appendChild(resetText);
+    playlistSongs.appendChild(resetButton);
+
+    resetButton.addEventListener("click", () => {
+      userData.songs = [...allSongs];
+
+      renderSongs(sortSongs());
+      setPlayButtonAccessibleText();
+      resetButton.remove();
+    });
+  }
+};
+
+const setPlayerDisplay = () => {
+  const playingSong = document.getElementById("player-song-title");
+  const songArtist = document.getElementById("player-song-artist");
+  const currentTitle = userData?.currentSong?.title;
+  const currentArtist = userData?.currentSong?.artist;
+
+  playingSong.textContent = currentTitle ? currentTitle : "";
+  songArtist.textContent = currentArtist ? currentArtist : "";
 };
 
 const highlightCurrentSong = () => {
   const playlistSongElements = document.querySelectorAll(".playlist-song");
-
   const songToHighlight = document.getElementById(
     `song-${userData?.currentSong?.id}`
   );
@@ -178,9 +196,7 @@ const highlightCurrentSong = () => {
     songEl.removeAttribute("aria-current");
   });
 
-  if (songToHighlight) {
-    songToHighlight.setAttribute("aria-current", "true");
-  }
+  if (songToHighlight) songToHighlight.setAttribute("aria-current", "true");
 };
 
 const renderSongs = (array) => {
@@ -207,18 +223,18 @@ const renderSongs = (array) => {
 
 const setPlayButtonAccessibleText = () => {
   const song = userData?.currentSong || userData?.songs[0];
+
   playButton.setAttribute(
     "aria-label",
     song?.title ? `Play ${song.title}` : "Play"
   );
 };
 
-const getCurrentSongIndex = () => {
-  return userData?.songs.indexOf(userData?.currentSong);
-};
+const getCurrentSongIndex = () =>
+  userData?.songs.indexOf(userData?.currentSong);
 
 playButton.addEventListener("click", () => {
-  if (!userData?.currentSong) {
+  if (userData?.currentSong === null) {
     playSong(userData?.songs[0].id);
   } else {
     playSong(userData?.currentSong.id);
@@ -226,15 +242,28 @@ playButton.addEventListener("click", () => {
 });
 
 pauseButton.addEventListener("click", pauseSong);
+
 nextButton.addEventListener("click", playNextSong);
+
 previousButton.addEventListener("click", playPreviousSong);
+
 shuffleButton.addEventListener("click", shuffle);
+resetButton.addEventListener("click", () => {
+  userData.songs = [...allSongs];
+  renderSongs(sortSongs());
+  setPlayButtonAccessibleText();
+  resetButton.remove();
+});
 
 const sortSongs = () => {
-  userData?.songs.sort((a, b) => {
-    if (a.title < b.title) return -1;
+  userData?.songs.sort((a,b) => {
+    if (a.title < b.title) {
+      return -1;
+    }
 
-    if (a.title > b.title) return 1;
+    if (a.title > b.title) {
+      return 1;
+    }
 
     return 0;
   });
@@ -243,3 +272,4 @@ const sortSongs = () => {
 };
 
 renderSongs(sortSongs());
+setPlayButtonAccessibleText();
