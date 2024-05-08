@@ -13,16 +13,30 @@ const descriptionInput = document.getElementById("description-input");
 const taskData = [];
 let currentTask = {};
 
+const reset = () => {
+  (titleInput.value = ""),
+    (dateInput.value = ""),
+    (descriptionInput.value = ""),
+    taskForm.classList.toggle("hidden"),
+    (currentTask = {});
+};
+
 openTaskFormBtn.addEventListener("click", () =>
   taskForm.classList.toggle("hidden")
 );
-closeTaskFormBtn.addEventListener("click", () =>
-  confirmCloseDialog.showModal()
-);
+closeTaskFormBtn.addEventListener("click", () => {
+  const formInputsContainValues =
+    titleInput.value || dateInput.value || descriptionInput.value;
+  if (formInputsContainValues) {
+    confirmCloseDialog.showModal();
+  } else {
+    reset();
+  }
+});
 cancelBtn.addEventListener("click", () => confirmCloseDialog.close());
 discardBtn.addEventListener("click", () => {
   confirmCloseDialog.close();
-  taskForm.classList.toggle("hidden");
+  reset();
 });
 taskForm.addEventListener("submit", (e) => {
   e.preventDefault();
@@ -40,8 +54,8 @@ if (dataArrIndex === -1) {
   taskData.unshift(taskObj);
 }
 
-taskData.forEach(({id, title, date, description}) => {
-    (tasksContainer.innerHTML += `
+taskData.forEach(({ id, title, date, description }) => {
+  tasksContainer.innerHTML += `
       <div class="task" id="${id}">
         <p><strong>Title:</strong> ${title}</p>
         <p><strong>Date:</strong> ${date}</p>
@@ -49,8 +63,7 @@ taskData.forEach(({id, title, date, description}) => {
         <button type="button" class="btn">Edit</button>
         <button type="button" class="btn">Delete</button>
       </div>
-    `)
-  } 
-);
+    `;
+});
 
-taskForm.classList.toggle("hidden");
+reset();
