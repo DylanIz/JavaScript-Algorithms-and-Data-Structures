@@ -3,13 +3,17 @@ const convertBtn = document.getElementById("convert-btn");
 const result = document.getElementById("result");
 
 const checkUserInput = () => {
-    console.log(numberInput.value);
+  if (!numberInput.value || isNaN(parseInt(numberInput.value))) {
+    alert("Please provide a decimal number");
+    return;
+  }
+  console.log(numberInput.value);
 };
 
-convertBtn.addEventListener("click", checkUserInput)
+convertBtn.addEventListener("click", checkUserInput);
 
 numberInput.addEventListener("keydown", (e) => {
-    if(e.key === "Enter"){
-        checkUserInput();
-    }
-})
+  if (e.key === "Enter") {
+    checkUserInput();
+  }
+});
