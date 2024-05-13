@@ -72,15 +72,16 @@ const editTask = (buttonEl) => {
 };
 
 const reset = () => {
-  (titleInput.value = ""),
+  (addOrUpdateTaskBtn.innerText = "Add Task"),
+    (titleInput.value = ""),
     (dateInput.value = ""),
     (descriptionInput.value = ""),
     taskForm.classList.toggle("hidden"),
     (currentTask = {});
 };
 
-if(taskData.length){
-    updateTaskContainer();
+if (taskData.length) {
+  updateTaskContainer();
 }
 
 openTaskFormBtn.addEventListener("click", () =>
