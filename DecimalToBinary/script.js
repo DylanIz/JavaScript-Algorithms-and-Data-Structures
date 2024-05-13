@@ -2,6 +2,16 @@ const numberInput = document.getElementById("number-input");
 const convertBtn = document.getElementById("convert-btn");
 const result = document.getElementById("result");
 
+const countDownAndUp = (number) => {
+  console.log(number);
+  if (number === 0) {
+    return;
+  } else {
+    countDownAndUp(number - 1);
+  }
+};
+countDownAndUp(3);
+
 const decimalToBinary = (input) => {
   let binary = "";
 
