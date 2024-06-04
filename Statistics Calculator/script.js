@@ -3,8 +3,27 @@ const getMean = (array) =>
 
 const getMedian = (array) => {
   const sorted = array.sort((a, b) => a - b);
+  const median =
+    array.length % 2 === 0
+      ? getMean([sorted[array.length / 2], sorted[array.length / 2 - 1]])
+      : sorted[Math.floor(array.length / 2)];
+  return median;
 };
 
+/*
+const getMedian = (array) => {
+  const sorted = array.sort((a, b) => a - b);
+    if(array.length % 2 === 0){
+        const firstMiddleNumber = sorted[sorted.length / 2];
+        const secondMiddleNumber = sorted[sorted.length / 2 - 1];
+        return evenListMedian = getMean([firstMiddleNumber, secondMiddleNumber]);
+    } else{
+        return oddListMedian = sorted[Math.floor(sorted.length / 2)];
+    }
+};
+*/
+
+/*
 const testArr1 = [1, 2, 3, 4, 5];
 const testArr2 = [1, 2, 3, 4, 5, 6];
 const isEven = testArr2.length % 2 === 0;
@@ -15,6 +34,7 @@ const firstMiddleNumber = testArr2[testArr2.length / 2];
 const secondMiddleNumber = testArr2[testArr2.length / 2 - 1];
 const evenListMedian = getMean([firstMiddleNumber, secondMiddleNumber]);
 console.log(evenListMedian);
+*/
 
 const calculate = () => {
   const value = document.querySelector("#numbers").value;
