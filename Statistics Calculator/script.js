@@ -10,6 +10,9 @@ const getMedian = (array) => {
   return median;
 };
 
+const getMode = (array) => {
+    
+}
 /*
 const getMedian = (array) => {
   const sorted = array.sort((a, b) => a - b);
@@ -41,6 +44,8 @@ const calculate = () => {
   const array = value.split(/,\s*/g);
   const numbers = array.map((el) => Number(el)).filter((el) => !isNaN(el));
   const mean = getMean(numbers);
+  const median = getMedian(numbers);
 
   document.querySelector("#mean").textContent = mean;
+  document.querySelector("#median").textContent = median;
 };
