@@ -11,8 +11,17 @@ const getMedian = (array) => {
 };
 
 const getMode = (array) => {
-    
+    const counts = {};
+    array.forEach((el) => {
+      if (counts[el]) {
+          counts[el]++;
+      } else {
+          counts[el] = 1;
+      }
+    })
+    return counts;
 }
+
 /*
 const getMedian = (array) => {
   const sorted = array.sort((a, b) => a - b);
