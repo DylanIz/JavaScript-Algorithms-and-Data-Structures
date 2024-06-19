@@ -27,6 +27,9 @@ const getMode = (array) => {
   return mode.join(", ")
 }
 
+const getRange = (array) => {
+  return Math.max(...array) - Math.min(...array);
+}
 /*
 const getMedian = (array) => {
   const sorted = array.sort((a, b) => a - b);
@@ -60,7 +63,9 @@ const calculate = () => {
   const mean = getMean(numbers);
   const median = getMedian(numbers);
   const mode = getMode(numbers);
+  const range = getRange(numbers);
 
+  document.querySelector("#range").textContent = range;
   document.querySelector("#mode").textContent = mode;
   document.querySelector("#mean").textContent = mean;
   document.querySelector("#median").textContent = median;
