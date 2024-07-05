@@ -14,7 +14,7 @@ const median = (nums) => {
 const spreadsheetFunctions = {
   sum,
   average,
-  median
+  median,
 };
 
 const range = (start, end) =>
@@ -25,6 +25,10 @@ const charRange = (start, end) =>
   range(start.charCodeAt(0), end.charCodeAt(0)).map((code) =>
     String.fromCharCode(code)
   );
+
+const evalFormula = (x, cells) => {
+  const idToText = (id) => cells.find((cell) => cell.id === id);
+};
 
 window.onload = () => {
   const container = document.getElementById("container");
@@ -53,7 +57,6 @@ const update = (event) => {
   const element = event.target;
   const value = element.value.replace(/\s/g, "");
   //You may use [0], .startsWith(), or .charAt(0).
-  if(!value.includes(element.id) && value[0] === "="){
-
+  if (!value.includes(element.id) && value[0] === "=") {
   }
 };
