@@ -33,7 +33,7 @@ const evalFormula = (x, cells) => {
   const elemValue = (num) => {
     const inner = (character) => {
       return idToText(character + num);
-      };  
+    };
     return inner;
   };
 };
